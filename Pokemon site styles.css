@@ -1,0 +1,662 @@
+/* ZÁKLAD - ponecháno tvé nastavení */
+body {
+  position: relative;
+  min-height: 100dvh;
+  font-family: Arial, sans-serif;
+  display: grid;
+  grid-template-areas:
+    "header"
+    "nav"
+    "main";
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
+  margin: 0;
+}
+
+/* Společné pozadí - opraveno na fixed, aby nekousalo na mobilu */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url(https://www.pixelstalk.net/wp-content/uploads/2016/09/All-Pokemon-Desktop-Background.png);
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+}
+
+/* Oblasti gridu */
+.header { grid-area: header; background: transparent; padding: 20px; text-align: center; }
+.nav    { grid-area: nav; background: transparent; padding: 20px; text-align: center; }
+.main   { grid-area: main; background: #fff; padding: 20px; text-align: center; border-radius: 10px; border: 2px solid #004a94; margin: 10px; }
+
+.move_header { position: sticky; z-index: 10; top: 0; }
+
+/* 💻 PC VERZE - 2 sloupce */
+@media (min-width: 1024px) {
+  body {
+    grid-template-areas:
+      "header header"
+      "nav    main";
+    grid-template-columns: 250px 1fr;
+  }
+
+}
+/*nav*/
+
+a { text-decoration: none; color: black; font-weight: bold; }
+a:hover { color: blue; }
+.block { background-color: #ffffff; border: 2px solid #004a94; border-radius: 10px; padding: 10px; }
+.logo { max-width: 100%; height: auto; width: 400px; }
+
+/* Journey */
+.flex { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+.journey { flex: 1; padding: 10px; min-width: 80px; }
+
+html{
+  scroll-behavior: smooth;
+}
+h1{
+  text-decoration: underline;
+}
+
+  /*Header*/
+
+.block_kanto_header {
+  position: relative;
+  padding: 10px;
+  color: white;
+  background-image: url(https://archives.bulbagarden.net/media/upload/7/7d/PE_Kanto_Map.png);
+  background-position: top;
+  border-radius: 5px;
+
+}
+
+.block_kanto_header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2); /* overlay */
+  z-index: 0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.block_kanto_header > * {
+  position: relative;
+  z-index: 1;
+}
+
+  /*PASSPORT*/
+
+.passport{
+  position: relative;
+  text-align: left;
+  background-color: #ffffff;
+  border: 2px solid #004a94;
+  border-radius: 10px;
+  width: 100%; 
+  max-width: 1000px; 
+  min-height: 400px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+
+
+}
+.passport::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 0;
+  border-radius: 8px;
+}
+
+.passport > * {
+  position: relative;
+  z-index: 1;
+}
+
+.flex_passport{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.passport_side_png{
+  width: 100%;
+  max-width: 400px; 
+  height: auto;
+}
+.passport_image{
+  border: 2px solid #004a94;
+  margin: 10px;
+  border-radius: 10px;
+  width: 250px; 
+  height: auto;
+  
+}
+.passport_text{
+  flex: 1;
+  min-width: 280px; 
+  border: 2px solid #004a94;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.4);
+  
+}
+p{
+  font-size: x-large;
+  font-weight: bold;
+}
+.Passport_Background_Kanto{
+  background-image: url(https://archives.bulbagarden.net/media/upload/7/7d/PE_Kanto_Map.png);
+}
+.Passport_Owned_Pokemon{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+  justify-content: space-evenly;
+}
+.Passport_Pokemon_Size{
+  width: 100px;
+  height: 100px;
+}
+
+
+pre{
+  font-size: 6mm;
+  font-weight: bold;
+  white-space: pre-wrap;
+}
+.images {
+  display: flex;
+  gap: 20px;
+}
+
+.images img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+  .images {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+  }
+}
+
+@media (hover: none) {
+  .images img:hover {
+    transform: none;
+  }
+}
+
+.images img:hover {
+  transform: scale(1.3);
+}
+/* LIGHTBOX */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+#lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#lightboxImg {
+  max-width: 95vw;
+  max-height: 95vh;
+  border-radius: 10px;
+}
+
+#closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+    /*Header Sinnoh*/
+
+.block_sinnoh_header {
+  position: relative;
+  padding: 10px;
+  color: white;
+  background-image: url(https://archives.bulbagarden.net/media/upload/0/08/Sinnoh_BDSP_artwork.png);
+
+  background-position: top;
+  border-radius: 5px;
+
+}
+
+.block_sinnoh_header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2); /* overlay */
+  z-index: 0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.block_sinnoh_header > * {
+  position: relative;
+  z-index: 1;
+}
+.Passport_Background_Sinnoh{
+  background-image: url(https://archives.bulbagarden.net/media/upload/0/08/Sinnoh_BDSP_artwork.png);
+  background-position: center;
+}
+
+/*Hisui*/ 
+.block_hisui_header {
+  position: relative;
+  padding: 10px;
+  color: white;
+  background-image: url(https://archives.bulbagarden.net/media/upload/2/22/Legends_Arceus_Hisui.png);
+  background-position: center;
+  border-radius: 5px;
+
+}
+
+.block_hisui_header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2); /* overlay */
+  z-index: 0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.block_hisui_header > * {
+  position: relative;
+  z-index: 1;
+}
+.Passport_Background_hisui{
+  background-image: url(https://archives.bulbagarden.net/media/upload/2/22/Legends_Arceus_Hisui.png);
+  background-position: center;
+}
+
+/*Galar*/ 
+.block_galar_header {
+  position: relative;
+  padding: 10px;
+  color: white;
+  background-image: url(https://archives.bulbagarden.net/media/upload/c/ce/Galar_artwork.png);
+  background-position: center;
+  border-radius: 5px;
+
+}
+
+.block_galar_header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2); /* overlay */
+  z-index: 0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.block_galar_header > * {
+  position: relative;
+  z-index: 1;
+}
+.Passport_Background_galar{
+  background-image: url(https://archives.bulbagarden.net/media/upload/c/ce/Galar_artwork.png);
+  background-position: center;
+}
+
+/*Paldea*/ 
+.block_paldea_header {
+  position: relative;
+  padding: 10px;
+  color: white;
+  background-image: url(https://archives.bulbagarden.net/media/upload/f/fd/Paldea_artwork.png);
+  background-position: center;
+  border-radius: 5px;
+  background-size: cover;
+
+}
+
+.block_paldea_header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2); /* overlay */
+  z-index: 0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.block_paldea_header > * {
+  position: relative;
+  z-index: 1;
+}
+.Passport_Background_paldea{
+  background-image: url(https://archives.bulbagarden.net/media/upload/f/fd/Paldea_artwork.png);
+  background-position: center;
+  background-size: cover;
+}
+
+/*Kalos*/ 
+.block_kalos_header {
+  position: relative;
+  padding: 10px;
+  color: white;
+  background-image: url(https://archives.bulbagarden.net/media/upload/f/fe/ZA_Lumiose_City_map.png);
+  background-position: center;
+  border-radius: 5px;
+  background-size: cover;
+
+}
+
+.block_kalos_header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2); /* overlay */
+  z-index: 0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.block_kalos_header > * {
+  position: relative;
+  z-index: 1;
+}
+.Passport_Background_kalos{
+  background-image: url(https://archives.bulbagarden.net/media/upload/f/fe/ZA_Lumiose_City_map.png);
+  background-position: center;
+  background-size: cover;
+}
+
+/*Battel Gimmicks*/
+.block_mega_header, .block_zmoves_header, .block_giga_header, .block_tera_header  {
+  position: relative;
+  padding: 10px;
+  color: white;
+  background-size: cover;
+  background-position: top;
+  border-radius: 5px;
+
+}
+
+.block_mega_header, .block_zmoves_header, .block_giga_header, .block_tera_header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2); /* overlay */
+  z-index: 0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.block_mega_header, .block_zmoves_header, .block_giga_header, .block_tera_header > * {
+  position: relative;
+  z-index: 1;
+}
+.block_mega_header{
+  background: radial-gradient(circle at top, rgba(203, 72, 142), rgba(106, 188, 207 ), rgba(193, 186, 77), rgba(226, 146, 62 ));
+}
+.block_zmoves_header{
+  background: radial-gradient(circle at top,rgba(48, 244, 81 ), rgba(27, 148, 28) );
+}
+.block_giga_header{
+  background: radial-gradient(circle at top, rgba(255, 215, 214), rgba(242, 99, 142 ), rgba(183, 17, 82 ));
+}
+.block_tera_header{
+  background: radial-gradient(circle at top, rgb(193, 255, 243), rgba(163, 229, 217 ), rgb(50, 243, 201));
+}
+
+.tera_logo {
+  width: 70px;
+  height: 70px;
+}
+
+@media (min-width: 768px) {
+  .tera_logo {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.info{
+  position: relative;
+  text-align: left;
+  border-radius: 10px;
+  width: 100%; 
+  max-width: 1000px; 
+  min-height: 400px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+
+
+}
+.info::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 8px;
+}
+
+.info > * {
+  position: relative;
+  z-index: 1;
+}
+.info_text{
+  flex: 1;
+  min-width: 280px; 
+  margin: 10px;
+  padding: 10px;
+}
+.info_text pre{
+  font-family: ' Calibri ' , sans-serif;
+}
+
+/*Types*/
+
+.block_normal_header, .block_fighting_header, .block_flying_header, .block_poison_header, .block_ground_header, .block_rock_header, .block_bug_header, .block_ghost_header, .block_steel_header, .block_dragon_header, .block_fire_header, .block_water_header, .block_grass_header, .block_electric_header, .block_psychic_header, .block_ice_header, .block_dark_header, .block_fairy_header {
+  position: relative;
+  padding: 10px;
+  color: white;
+  background-size: cover;
+  background-position: top;
+  border-radius: 5px;
+
+}
+
+.block_normal_header, .block_fighting_header, .block_flying_header, .block_poison_header, .block_ground_header, .block_rock_header, .block_bug_header, .block_ghost_header, .block_steel_header, .block_dragon_header, .block_fire_header, .block_water_header, .block_grass_header, .block_electric_header, .block_psychic_header, .block_ice_header, .block_dark_header, .block_fairy_header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.block_normal_header, .block_fighting_header, .block_flying_header, .block_poison_header, .block_ground_header, .block_rock_header, .block_bug_header, .block_ghost_header, .block_steel_header, .block_dragon_header, .block_fire_header, .block_water_header, .block_grass_header, .block_electric_header, .block_psychic_header, .block_ice_header, .block_dark_header, .block_fairy_header > * {
+  position: relative;
+  z-index: 1;
+}
+.block_normal_header{
+  background-color: rgba(159, 161, 159) ;
+}
+.block_fighting_header{
+  background-color: rgba(255, 128, 0) ;
+}
+.block_flying_header{
+  background-color: rgba(129, 185, 239) ;
+}
+.block_poison_header{
+  background-color: rgba(145, 65, 203) ;
+}
+.block_ground_header{
+  background-color: rgba(144, 80, 32) ;
+}
+.block_rock_header{
+  background-color: rgba(175, 169, 129) ;
+}
+.block_bug_header{
+  background-color: rgba(145, 161, 25) ;
+}
+.block_ghost_header{
+  background-color: rgba(112, 65, 112) ;
+}
+.block_steel_header{
+  background-color: rgba(96, 161, 184) ;
+}
+.block_fire_header{
+  background-color: rgba(230, 40, 41) ;
+}
+.block_water_header{
+  background-color: rgba(41, 128, 239) ;
+}
+.block_grass_header{
+  background-color: rgba(63, 161, 41) ;
+}
+.block_electric_header{
+  background-color: rgba(250, 192, 0) ;
+}
+.block_psychic_header{
+  background-color: rgba(239, 65, 121) ;
+}
+.block_ice_header{
+  background-color: rgba(63, 216, 255) ;
+}
+.block_dragon_header{
+  background-color: rgba(80, 96, 225) ;
+}
+.block_dark_header{
+  background-color: rgba(80, 65, 63) ;
+}
+.block_fairy_header{
+  background-color: rgba(239, 112, 239) ;
+}
+
+/*eshop*/
+
+.category{
+  position: relative;
+  background: radial-gradient(circle at center, rgb(255, 255, 255), #004a94);
+  border: 2px solid #2c2e30;
+  border-radius: 10px;
+  width: 100%; 
+  max-width: 380px; 
+  min-height:560px; 
+  margin: 20px;
+  margin-top: 100px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;   
+  transition: transform 0.3s ease, box-shadow 0.3s ease;  
+}
+.category:hover {
+  transform: translateY(-8px); 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.inside{
+  position: relative;
+  background-color: white;
+  border: 2px solid #2c2e30;
+  border-radius: 10px;
+  width: 100%; 
+  max-width: 350px; 
+  min-height: 470px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.card_background{
+  background-image: url(img/back.png) ;
+}
+
+.cat_img {
+  width: 100%;
+  max-width: 350px; 
+  height: auto;
+}
+
+.card-link {
+  text-decoration: none; 
+  color: inherit;        
+  display: inline-block; 
+  cursor: pointer;       
+}
+
+.buy_img {
+  height: 100%;
+  max-height: 200px; 
+  width: auto;
+  object-fit: contain; 
+  border: 2px solid #2c2e30;
+  border-radius: 10px;
+  margin-left:10px;
+  margin-right:10px;
+  background-color: white;
+
+}
+
+.buy_text h2{
+  text-align: left;
+  margin-left: 50px;
+}
+.buy_text_desc{
+  font-size: 12px;
+}
+.buy_text_title{
+  font-size: 20px;
+  font-weight: bold;
+}
+.cost{
+  display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 100px;
+}
+
+.add-to-cart-btn {
+  background-color: #004a94; 
+  color: #ffffff;            
+  border: 2px solid #2c2e30; 
+  border-radius: 8px;        
+  padding: 10px 20px;        
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;              
+  max-width: 250px;          
+  margin: 15px auto 0 auto;  
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #1ba6e7; 
+}
+.add-to-cart-btn:active {
+  transform: scale(0.98); 
+}
